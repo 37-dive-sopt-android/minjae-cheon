@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -21,7 +20,8 @@ import androidx.compose.ui.unit.dp
 fun TestLoginButton() {
     var count by remember { mutableIntStateOf(0) }
     Column {
-        LoginButton(
+        CustomButton(
+            text = "Welcome To Sopt",
             onClick = { count += 1 },
             modifier = Modifier
         )
@@ -30,7 +30,7 @@ fun TestLoginButton() {
 }
 
 @Composable
-fun LoginButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun CustomButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Button(
         onClick = onClick,
         modifier = modifier,
@@ -38,6 +38,6 @@ fun LoginButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
             containerColor = Color(52, 134, 235)),
         shape = RoundedCornerShape(10.dp)
     ) {
-        Text("Welcome To Sopt")
+        Text(text)
     }
 }

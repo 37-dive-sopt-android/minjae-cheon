@@ -2,6 +2,7 @@ package com.sopt.dive.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,8 +20,12 @@ fun TestLogin() {
     var id by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
 
-    Column {
-        LoginField(id, { id = it }, pw, { pw = it })
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        LoginField(id, { id = it }, pw, { pw = it },
+            modifier = Modifier.fillMaxWidth())
 
         Text(id)
         Text(pw)
@@ -36,7 +41,9 @@ fun LoginField(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-        Field("ID", "아이디를 입력해주세요", id, onChangeId)
-        Field("PW", "비밀번호를 입력해주세요", pw, onChangePw)
+        Field("ID", "아이디를 입력해주세요", id, onChangeId,
+            true, Modifier.fillMaxWidth())
+        Field("PW", "비밀번호를 입력해주세요", pw, onChangePw,
+            false, Modifier.fillMaxWidth())
     }
 }
