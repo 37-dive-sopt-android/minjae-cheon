@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -89,6 +90,7 @@ fun SignUpPage(modifier: Modifier = Modifier,
     var mbti by remember { mutableStateOf("") }
 
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
 
     Column(modifier = modifier.fillMaxSize().padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
@@ -98,7 +100,8 @@ fun SignUpPage(modifier: Modifier = Modifier,
 
         SignUpField(
             id, { id = it }, pw, { pw = it },
-            nickname, { nickname = it }, mbti, { mbti = it })
+            nickname, { nickname = it }, mbti, { mbti = it },
+            focusManager)
 
         Spacer(Modifier.weight(1f))
 

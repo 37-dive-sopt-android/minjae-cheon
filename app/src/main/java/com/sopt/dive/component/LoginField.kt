@@ -11,6 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -25,7 +27,7 @@ fun TestLogin() {
         modifier = Modifier.fillMaxWidth()
     ) {
         LoginField(id, { id = it }, pw, { pw = it },
-            modifier = Modifier.fillMaxWidth())
+            LocalFocusManager.current, modifier = Modifier.fillMaxWidth())
 
         Text(id)
         Text(pw)
@@ -36,14 +38,15 @@ fun TestLogin() {
 fun LoginField(
     id: String, onChangeId: (String) -> Unit,
     pw: String, onChangePw: (String) -> Unit,
+    focusManager: FocusManager,
     modifier: Modifier = Modifier) {
     Column(modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
         Field("ID", "아이디를 입력해주세요", id, onChangeId,
-            true, Modifier.fillMaxWidth())
+            true, focusManager, Modifier.fillMaxWidth())
         Field("PW", "비밀번호를 입력해주세요", pw, onChangePw,
-            false, Modifier.fillMaxWidth())
+            false, focusManager, Modifier.fillMaxWidth())
     }
 }
