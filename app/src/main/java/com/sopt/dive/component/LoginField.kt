@@ -40,13 +40,13 @@ fun LoginField(
     pw: String, onChangePw: (String) -> Unit,
     focusManager: FocusManager,
     modifier: Modifier = Modifier) {
-    Column(modifier = modifier,
+    Column(modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
         Field("ID", "아이디를 입력해주세요", id, onChangeId,
-            true, focusManager, Modifier.fillMaxWidth())
+            true, focusManager)
         Field("PW", "비밀번호를 입력해주세요", pw, onChangePw,
-            false, focusManager, Modifier.fillMaxWidth())
+            false, focusManager)
     }
 }

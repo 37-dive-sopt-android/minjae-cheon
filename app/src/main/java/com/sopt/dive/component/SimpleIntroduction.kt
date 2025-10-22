@@ -40,7 +40,7 @@ fun SimpleIntroduction(img: Painter, imgDescription: String, nickname: String, s
             )
             Text(
                 nickname, fontSize = 20.sp, fontWeight = W600,
-                textAlign = TextAlign.Center, modifier = Modifier.padding(10.dp)
+                modifier = Modifier.padding(10.dp)
             )
         }
         Text(shortIntroduction)

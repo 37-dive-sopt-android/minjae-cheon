@@ -9,7 +9,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,55 +55,57 @@ class LoginActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun LoginPage(modifier: Modifier = Modifier) {
-    var savedInfo by remember { mutableStateOf(UserInfo()) }
+    var savedInfo by remember { mutableStateOf(UserInfo(Intent())) }
 
     var id by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
 
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
-//    val loginLauncher = rememberLauncherForActivityResult(
-//        ActivityResultContracts.StartActivityForResult()
-//    ) { result ->
-//        if (result.resultCode == RESULT_OK) {
-//            Toast.makeText(context, "로그인에 성공했습니다",
-//                Toast.LENGTH_SHORT).show()
-//        }
-//    }
+
     val signUpLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             val data = result.data
-            savedInfo.setInfo(data)
+            savedInfo = UserInfo(data)
         }
     }
 
     Column(
-        modifier = modifier.fillMaxSize().padding(horizontal = 20.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Header("Welcome To Sopt", fontSize = 30.sp,
-            modifier = Modifier.fillMaxWidth().padding(top = 20.dp))
+        Header(
+            "Welcome To Sopt", fontSize = 30.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp)
+        )
 
         Spacer(Modifier.height(50.dp))
 
-        LoginField(id, { id = it }, pw, { pw = it },
-            focusManager, modifier = Modifier.fillMaxWidth())
+        LoginField(
+            id, { id = it }, pw, { pw = it },
+            focusManager, modifier = Modifier.fillMaxWidth()
+        )
 
         Spacer(Modifier.weight(1f))
 
-        CustomButton("Welcome To Sopt", {
-            if(savedInfo.validate(id, pw)) {
-                val intent = Intent(context, MainPageActivity::class.java)
-//                loginLauncher.launch(intent)
-                savedInfo.setIntent(intent)
-                context.startActivity(intent)
-            } else {
-                Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
-            }
-        },
-            modifier = Modifier.fillMaxWidth())
+        CustomButton(
+            "Welcome To Sopt", {
+                if (id != "" && pw != "" && savedInfo.validate(id, pw)) {
+                    val intent = Intent(context, MainPageActivity::class.java)
+                    savedInfo.setIntent(intent)
+                    context.startActivity(intent)
+                } else {
+                    Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
 
         SignUpButton({
             val intent = Intent(context, SignUpActivity::class.java)

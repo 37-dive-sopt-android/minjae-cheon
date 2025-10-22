@@ -1,13 +1,12 @@
 package com.sopt.dive.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +17,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,10 +29,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.snackbar.Snackbar
-import com.sopt.dive.R
 import com.sopt.dive.UserInfo
 import com.sopt.dive.component.CustomButton
 import com.sopt.dive.component.Header
@@ -43,18 +37,11 @@ import com.sopt.dive.ui.theme.DiveTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_sign_up)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         setContent {
             DiveTheme {
@@ -77,8 +64,6 @@ class SignUpActivity : ComponentActivity() {
         }
     }
 }
-
-@Preview(showBackground = true)
 @Composable
 fun SignUpPage(modifier: Modifier = Modifier,
                snackbarHostState: SnackbarHostState = SnackbarHostState(),
@@ -106,31 +91,37 @@ fun SignUpPage(modifier: Modifier = Modifier,
         Spacer(Modifier.weight(1f))
 
         CustomButton("회원가입하기", {
-            val result = validate(id, pw, nickname, mbti)
-            if (result != ValidateResult.SUCCESS) {
-                // error snack bar
-                scope.launch {
-                    snackbarHostState.showSnackbar("회원가입 실패: ${result.msg}")
-                }
-                return@CustomButton
-            }
-            // 성공 메세지
-            Toast.makeText(context, "회원가입 성공!", Toast.LENGTH_SHORT).show()
-            // LoginActivity 로 넘어가기(with info)
-            val userInfo = UserInfo(id, pw, nickname, mbti)
-            signUpFunc(userInfo)
-
+            onClickSignUp(id, pw, nickname, mbti,
+                scope, snackbarHostState, context, signUpFunc)
         }, Modifier.fillMaxWidth())
 
         Spacer(Modifier.height(5.dp))
     }
 }
 
+fun onClickSignUp(id: String, pw: String, nickname: String, mbti: String,
+               scope: CoroutineScope, snackbarHostState: SnackbarHostState, context: Context,
+                  signUpFunc: (UserInfo) -> Unit) {
+    val result = validate(id, pw, nickname, mbti)
+    if (result != ValidateResult.SUCCESS) {
+        // error snack bar
+        scope.launch {
+            snackbarHostState.showSnackbar("회원가입 실패: ${result.msg}")
+        }
+        return
+    }
+    // 성공 메세지
+    Toast.makeText(context, "회원가입 성공!", Toast.LENGTH_SHORT).show()
+    // LoginActivity 로 넘어가기(with info)
+    val userInfo = UserInfo(id, pw, nickname, mbti)
+    signUpFunc(userInfo)
+}
+
 fun validate(id: String, pw: String, nickname: String, mbti: String): ValidateResult {
-    if(!(6 <= id.length && id.length <= 10)) {
+    if(id.length !in 6..10) {
         return ValidateResult.ID_FAULT
     }
-    if(!(8 <= pw.length && pw.length <= 12)) {
+    if(pw.length !in 8..12) {
         return ValidateResult.PW_FAULT
     }
     if(nickname.trim().isEmpty()) {

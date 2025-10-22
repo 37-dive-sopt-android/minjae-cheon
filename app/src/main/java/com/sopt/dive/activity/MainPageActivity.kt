@@ -68,15 +68,16 @@ fun MainPage(id: String, pw: String, nickname: String, mbti: String,
     modifier: Modifier = Modifier) {
     val img = painterResource(id = R.drawable.image)
 
-    Column(modifier = modifier.fillMaxWidth().padding(20.dp)) {
+    Column(modifier = modifier.fillMaxWidth().padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)) {
         SimpleIntroduction(img, "자기소개 이미지입니다",
             nickname, "$nickname 입니다 반갑습니다")
 
         Spacer(Modifier.padding(20.dp))
 
-        Info("ID", id, modifier = Modifier.padding(vertical = 10.dp))
-        Info("PW", pw, modifier = Modifier.padding(vertical = 10.dp))
-        Info("NICKNAME", nickname, modifier = Modifier.padding(vertical = 10.dp))
-        Info("MBTI", mbti, modifier = Modifier.padding(vertical = 10.dp))
+        Info("ID", id)
+        Info("PW", pw)
+        Info("NICKNAME", nickname)
+        Info("MBTI", mbti)
     }
 }

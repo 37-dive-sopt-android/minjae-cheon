@@ -37,8 +37,10 @@ fun Test() {
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Field(
-            text = "ID", label = "ID 를 입력해라",
-            value = s, onValueChange = { s = it },
+            text = "ID",
+            label = "ID 를 입력해라",
+            value = s,
+            onValueChange = { s = it },
             true,
             focusManager = LocalFocusManager.current,
             modifier = Modifier.fillMaxWidth().padding(5.dp)
