@@ -17,12 +17,9 @@ class UserRepository(private val dataStore: DataStore<Preferences>) {
 
     suspend fun getCurrentUserInfo(): UserInfo {
         return dataStore.data.map { preferences ->
-            val jsonString = preferences[PreferencesKeys.CURRENT_USER_INFO]
-
-            if (jsonString != null) {
-                Json.decodeFromString<UserInfo>(jsonString)
-            }
-            UserInfo()
+            preferences[PreferencesKeys.CURRENT_USER_INFO]?.let {
+                jsonString -> Json.decodeFromString<UserInfo>(jsonString)
+            } ?: UserInfo()
         }.first()
     }
     suspend fun setCurrentUserInfo(userInfo: UserInfo) {
