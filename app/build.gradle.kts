@@ -58,7 +58,7 @@ dependencies {
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.datastore)
-    implementation(libs.kotilnx.serialization.json)
+        implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

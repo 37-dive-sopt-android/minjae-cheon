@@ -41,7 +41,7 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 androidx-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "android-lifecycle"}
 androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "android-lifecycle"}
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "datastore"}
-kotilnx-serialization-json = { group = "org.jetbrains.kotlix", name = "kotlinx-serialization-json", version.ref = "serialization-json"}
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization-json"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
