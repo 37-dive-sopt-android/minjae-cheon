@@ -10,7 +10,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sopt.dive.navigator.HomePage
-import com.sopt.dive.navigator.Route
 import com.sopt.dive.navigator.SignUp
 import com.sopt.dive.page.LoginPage
 import com.sopt.dive.viewModel.LoginUiState

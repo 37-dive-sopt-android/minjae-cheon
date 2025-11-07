@@ -9,7 +9,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.sopt.dive.data.UserRepository
 import com.sopt.dive.navigator.login.authGraph
+import com.sopt.dive.screen.MainScreen
+import com.sopt.dive.viewModel.MainViewModel
 import kotlinx.serialization.Serializable
 
 // ============ Navigation Graph Markers ============
@@ -64,7 +67,9 @@ fun AppNavHost(navController: NavHostController, dataStore: DataStore<Preference
             Text("This is SearchPage")
         }
         composable<MyPage> {
-            Text("This is MyPage")
+            MainScreen(
+                viewModel = MainViewModel(userRepository = UserRepository(dataStore = dataStore))
+            )
         }
     }
 }

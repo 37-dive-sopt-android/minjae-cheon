@@ -28,4 +28,10 @@ class UserRepository(private val dataStore: DataStore<Preferences>) {
             preferences[PreferencesKeys.CURRENT_USER_INFO] = jsonString
         }
     }
+
+    suspend fun clearUserInfo() {
+        dataStore.edit { preferences ->
+            preferences.remove(PreferencesKeys.CURRENT_USER_INFO)
+        }
+    }
 }

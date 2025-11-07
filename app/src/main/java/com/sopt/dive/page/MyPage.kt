@@ -15,9 +15,9 @@ import com.sopt.dive.component.Info
 import com.sopt.dive.component.SimpleIntroduction
 
 @Composable
-fun MainPage(id: String, pw: String, nickname: String, mbti: String, @DrawableRes imgId: Int,
+fun MyPage(id: String, pw: String, nickname: String, mbti: String, @DrawableRes imgId: Int,
              modifier: Modifier = Modifier) {
-    val img = painterResource(id = R.drawable.image)
+    val img = painterResource(id = imgId)
 
     Column(modifier = modifier.fillMaxWidth().padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)) {

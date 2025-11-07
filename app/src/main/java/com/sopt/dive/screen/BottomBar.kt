@@ -37,7 +37,13 @@ fun BottomBar(navController: NavController) {
         BottomBarItem.entries.forEach { item ->
             NavigationBarItem(
                 selected = currentDestination?.hasRoute(item.route::class) ?: false,
-                onClick = { navController.navigate(item.route) },
+                onClick = { navController.navigate(item.route) {
+                    popUpTo(HomePage) {
+                        inclusive = false
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                } },
                 icon = { Icon(item.icon, contentDescription = "bottom icon") },
                 label = { Text(item.title) },
             )
