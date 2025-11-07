@@ -1,5 +1,6 @@
 package com.sopt.dive.navigator
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.sopt.dive.data.UserRepository
 import com.sopt.dive.navigator.login.authGraph
+import com.sopt.dive.page.HomePage
 import com.sopt.dive.screen.MainScreen
 import com.sopt.dive.viewModel.MainViewModel
 import kotlinx.serialization.Serializable
@@ -61,7 +63,7 @@ fun AppNavHost(navController: NavHostController, dataStore: DataStore<Preference
         )
 
         composable<HomePage> {
-            Text("This is HomePage")
+            HomePage(modifier = Modifier.fillMaxSize())
         }
         composable<SearchPage> {
             Text("This is SearchPage")
