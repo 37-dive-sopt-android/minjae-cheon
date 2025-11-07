@@ -2,19 +2,14 @@ package com.sopt.dive.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.sopt.dive.navigator.login.Login
 import com.sopt.dive.page.SignUpPage
 import com.sopt.dive.viewModel.SignUpState
 import com.sopt.dive.viewModel.SignUpViewModel
@@ -23,7 +18,8 @@ import com.sopt.dive.viewModel.SignUpViewModel
 @Composable
 fun SignUpScreen(
     navController: NavController,
-    viewModel: SignUpViewModel
+    viewModel: SignUpViewModel,
+    snackbarHostState: SnackbarHostState
 ) {
     val signUpState by viewModel.signUpResult.collectAsStateWithLifecycle()
 
@@ -33,7 +29,6 @@ fun SignUpScreen(
     val mbti by viewModel.mbti.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
-    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(signUpState) {
         when(val state = signUpState) {
@@ -48,22 +43,17 @@ fun SignUpScreen(
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { innerPadding ->
-        SignUpPage(
-            id = id,
-            onIdChange = viewModel::onIdChange,
-            pw = pw,
-            onPwChange = viewModel::onPwChange,
-            nickname = nickname,
-            onNicknameChange = viewModel::onNicknameChange,
-            mbti = mbti,
-            onMbtiChange = viewModel::onMbtiChange,
-            onSignUpClick = viewModel::signUp,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-        )
-    }
+    SignUpPage(
+        id = id,
+        onIdChange = viewModel::onIdChange,
+        pw = pw,
+        onPwChange = viewModel::onPwChange,
+        nickname = nickname,
+        onNicknameChange = viewModel::onNicknameChange,
+        mbti = mbti,
+        onMbtiChange = viewModel::onMbtiChange,
+        onSignUpClick = viewModel::signUp,
+        modifier = Modifier
+            .fillMaxSize()
+    )
 }

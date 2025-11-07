@@ -1,5 +1,6 @@
 package com.sopt.dive.page
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +15,7 @@ import com.sopt.dive.component.Info
 import com.sopt.dive.component.SimpleIntroduction
 
 @Composable
-fun MainPage(id: String, pw: String, nickname: String, mbti: String,
+fun MainPage(id: String, pw: String, nickname: String, mbti: String, @DrawableRes imgId: Int,
              modifier: Modifier = Modifier) {
     val img = painterResource(id = R.drawable.image)
 
