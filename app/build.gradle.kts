@@ -17,6 +17,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "BASE_URL", properties["base.url"].toString())
     }
 
     buildTypes {
@@ -37,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -58,7 +60,8 @@ dependencies {
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.datastore)
-        implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
