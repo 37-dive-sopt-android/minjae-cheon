@@ -1,9 +1,11 @@
 package com.sopt.dive.data
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import com.sopt.dive.UserInfo
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -12,26 +14,19 @@ import kotlinx.serialization.json.Json
 
 class UserDataStore(private val dataStore: DataStore<Preferences>) {
     private object PreferencesKeys {
-        val CURRENT_USER_INFO = stringPreferencesKey("current_user_info")
+        val CURRENT_USER_UUID = stringPreferencesKey("current_user_uuid")
     }
 
-    suspend fun getCurrentUserInfo(): UserInfo {
+    suspend fun getCurrentUserUUID(): Int {
         return dataStore.data.map { preferences ->
-            preferences[PreferencesKeys.CURRENT_USER_INFO]?.let {
-                jsonString -> Json.decodeFromString<UserInfo>(jsonString)
-            } ?: UserInfo()
+            preferences[PreferencesKeys.CURRENT_USER_UUID]?.toInt() ?: 0
         }.first()
     }
-    suspend fun setCurrentUserInfo(userInfo: UserInfo) {
-        val jsonString = Json.encodeToString<UserInfo>(userInfo)
-        dataStore.edit { preferences ->
-            preferences[PreferencesKeys.CURRENT_USER_INFO] = jsonString
-        }
-    }
 
-    suspend fun clearUserInfo() {
-        dataStore.edit { preferences ->
-            preferences.remove(PreferencesKeys.CURRENT_USER_INFO)
+    suspend fun setCurrentUserUUID(id: Int): Int {
+        dataStore.edit {
+                preferences -> preferences[PreferencesKeys.CURRENT_USER_UUID] = id.toString()
         }
+        return id
     }
 }

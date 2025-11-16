@@ -7,20 +7,24 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.sopt.dive.data.UserDataStore
 import com.sopt.dive.navigator.AuthGraph
 import com.sopt.dive.navigator.Login
 import com.sopt.dive.navigator.SignUp
 import com.sopt.dive.screen.LoginScreen
 import com.sopt.dive.screen.SignUpScreen
+import com.sopt.dive.viewModel.LoginViewModel
 
 fun NavGraphBuilder.authGraph(navController: NavHostController,
-                              snackbarHostState: SnackbarHostState) {
+                              snackbarHostState: SnackbarHostState,
+                              dataStore: DataStore<Preferences>) {
     navigation<AuthGraph>(
         startDestination = Login
     ) {
         composable<Login> {
             LoginScreen(
-                navController = navController
+                navController = navController,
+                viewModel = LoginViewModel(dataStore = UserDataStore(dataStore = dataStore))
             )
         }
         composable<SignUp> {

@@ -7,6 +7,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -19,7 +21,7 @@ import com.sopt.dive.viewModel.LoginViewModel
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: LoginViewModel = viewModel()
+    viewModel: LoginViewModel
 ) {
     val loginState by viewModel.loginStatus.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -37,7 +39,7 @@ fun LoginScreen(
     }
 
     LoginPage(modifier = Modifier.fillMaxSize(),
-        onLoginClick = {id, pw -> viewModel.validate(id, pw) },
+        onLoginClick = { userName, pw -> viewModel.login(userName, pw) },
         onSignUpClick = { navController.navigate(SignUp) }
         )
 }

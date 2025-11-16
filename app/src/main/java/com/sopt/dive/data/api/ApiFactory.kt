@@ -1,6 +1,9 @@
 package com.sopt.dive.data.api
 
 import com.sopt.dive.BuildConfig
+import com.sopt.dive.data.api.dto.LoginRequest
+import com.sopt.dive.data.api.dto.LoginSuccess
+import com.sopt.dive.data.api.dto.LoginSuccessResponse
 import com.sopt.dive.data.api.dto.SignUpRequest
 import com.sopt.dive.data.api.dto.SignUpSuccess
 import kotlinx.serialization.json.Json
@@ -17,6 +20,8 @@ import java.util.concurrent.TimeUnit
 interface UserService {
     @POST("/api/v1/users")
     suspend fun signUp(@Body req: SignUpRequest): Response<SignUpSuccess>
+    @POST("/api/v1/auth/login")
+    suspend fun login(@Body req: LoginRequest): Response<LoginSuccessResponse>
 }
 
 object ApiFactory {

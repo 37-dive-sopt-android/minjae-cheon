@@ -27,7 +27,7 @@ data class SignUpRequest(
 }
 sealed class SignUpResult {
     data class Success(val data: SignUpSuccess) : SignUpResult()
-    data class Error(val error: SignUpError) : SignUpResult()
+    data class Error(val error: ApiError) : SignUpResult()
 }
 
 @Serializable
@@ -46,7 +46,7 @@ data class SignUpSuccess(
     val status: String
 )
 @Serializable
-data class SignUpError(
+data class ApiError(
     @SerialName("success")
     val success: Boolean,
     @SerialName("code")

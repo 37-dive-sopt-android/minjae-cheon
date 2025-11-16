@@ -58,7 +58,8 @@ fun AppNavHost(navController: NavHostController, dataStore: DataStore<Preference
     ) {
         authGraph(
             navController =  navController,
-            snackbarHostState = snackbarHostState
+            snackbarHostState = snackbarHostState,
+            dataStore = dataStore
         )
 
         composable<HomePage> {
