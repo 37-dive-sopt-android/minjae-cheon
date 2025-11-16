@@ -5,6 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sopt.dive.R
 import com.sopt.dive.page.MyPage
@@ -13,7 +14,7 @@ import com.sopt.dive.viewModel.UserInfoStatus
 
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel,
+    viewModel: MainViewModel = viewModel(),
 ) {
     val userInfoStatus = viewModel.userInfo.collectAsState()
     when(val state = userInfoStatus.value) {
@@ -21,10 +22,11 @@ fun MainScreen(
         is UserInfoStatus.Ready -> {
             val userInfo = state.value
             MyPage(
-                id = userInfo.id,
+                username = userInfo.username,
                 pw = userInfo.pw,
-                nickname = userInfo.nickname,
-                mbti = userInfo.mbti,
+                name = userInfo.name,
+                email = userInfo.email,
+                age = userInfo.age,
                 imgId = R.drawable.image, // 미구현 임시 이미지
                 modifier = Modifier.fillMaxSize()
             )

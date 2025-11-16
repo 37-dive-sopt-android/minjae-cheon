@@ -3,9 +3,7 @@ package com.sopt.dive.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.UserInfo
-import com.sopt.dive.data.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -15,7 +13,6 @@ sealed class UserInfoStatus {
 }
 
 class MainViewModel(
-    val userRepository: UserRepository
 ): ViewModel() {
     private val _userInfo = MutableStateFlow<UserInfoStatus>(UserInfoStatus.NeedPending)
     val userInfo = _userInfo.asStateFlow()
@@ -27,7 +24,7 @@ class MainViewModel(
     private fun loadUserInfo() {
         viewModelScope.launch {
             _userInfo.value = UserInfoStatus.Ready(
-                userRepository.getCurrentUserInfo()
+                TODO()
             )
         }
     }

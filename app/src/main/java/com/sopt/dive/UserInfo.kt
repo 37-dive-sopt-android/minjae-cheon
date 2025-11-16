@@ -3,10 +3,11 @@ package com.sopt.dive
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserInfo(val id: String = "", val pw: String = "",
-                    val nickname: String = "", val mbti: String = "") {
+data class UserInfo(val username: String = "", val pw: String = "",
+                    val name: String = "", val email: String = "",
+                    val age: Int = 0)
 
-    fun validate(id: String, pw: String): Boolean {
-        return this.id == id && this.pw == pw
-    }
-}
+data class UserUIInfo(
+    val text: String, val label: String,
+    val value: String, val onChange: (String) -> Unit,
+    val inputVisibility: Boolean)

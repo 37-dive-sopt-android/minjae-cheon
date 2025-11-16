@@ -7,30 +7,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.unit.dp
+import com.sopt.dive.UserUIInfo
 
 @Composable
 fun SignUpField(
-    id: String, onChangeId: (String) -> Unit,
-    pw: String, onChangePw: (String) -> Unit,
-    nickname: String, onChangeNickname: (String) -> Unit,
-    mbti: String, onChangeMbti: (String) -> Unit,
+    userUIInfo: List<UserUIInfo>,
     focusManager: FocusManager,
     modifier: Modifier = Modifier) {
     Column(modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Field("ID", "아이디를 입력해주세요",
-            id, onChangeId, true,
-            focusManager)
-        Field("PW", "비밀번호를 입력해주세요",
-            pw, onChangePw, false,
-            focusManager)
-        Field("NICKNAME", "닉네임을 입력해주세요",
-            nickname, onChangeNickname, true,
-            focusManager)
-        Field("MBTI", "MBTI 를 입력해주세요",
-            mbti, onChangeMbti, true,
-            focusManager)
+        for (userUI in userUIInfo) {
+            Field(
+                text = userUI.text,
+                label = userUI.label,
+                value = userUI.value,
+                onValueChange = userUI.onChange,
+                inputVisibility = userUI.inputVisibility,
+                focusManager = focusManager,
+            )
+        }
     }
 }
