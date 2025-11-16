@@ -9,7 +9,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.sopt.dive.UserUIInfo
 import com.sopt.dive.page.SignUpPage
 import com.sopt.dive.viewModel.SignUpState
 import com.sopt.dive.viewModel.SignUpViewModel
@@ -18,15 +20,16 @@ import com.sopt.dive.viewModel.SignUpViewModel
 @Composable
 fun SignUpScreen(
     navController: NavController,
-    viewModel: SignUpViewModel,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    viewModel: SignUpViewModel = viewModel()
 ) {
     val signUpState by viewModel.signUpResult.collectAsStateWithLifecycle()
 
-    val id by viewModel.id.collectAsStateWithLifecycle()
+    val username by viewModel.username.collectAsStateWithLifecycle()
     val pw by viewModel.pw.collectAsStateWithLifecycle()
-    val nickname by viewModel.nickname.collectAsStateWithLifecycle()
-    val mbti by viewModel.mbti.collectAsStateWithLifecycle()
+    val name by viewModel.name.collectAsStateWithLifecycle()
+    val email by viewModel.email.collectAsStateWithLifecycle()
+    val age by viewModel.age.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
 
@@ -39,19 +42,49 @@ fun SignUpScreen(
             SignUpState.Idle -> { }
             is SignUpState.Error -> {
                 snackbarHostState.showSnackbar("회원가입 실패: ${state.msg}")
+                viewModel.init()
             }
         }
     }
 
     SignUpPage(
-        id = id,
-        onIdChange = viewModel::onIdChange,
-        pw = pw,
-        onPwChange = viewModel::onPwChange,
-        nickname = nickname,
-        onNicknameChange = viewModel::onNicknameChange,
-        mbti = mbti,
-        onMbtiChange = viewModel::onMbtiChange,
+        userInfoList = listOf(
+            UserUIInfo(
+                text = "USERNAME",
+                label = "아이디를 입력해주세요",
+                value = username,
+                onChange = viewModel::onIdChange,
+                inputVisibility = true
+            ),
+            UserUIInfo(
+                text = "PW",
+                label = "패스워드를 입력해주세요",
+                value = pw,
+                onChange = viewModel::onPwChange,
+                inputVisibility = false
+            ),
+            UserUIInfo(
+                text = "NAME",
+                label = "이름을 입력해주세요",
+                value = name,
+                onChange = viewModel::onNameChange,
+                inputVisibility = true
+            ),
+            UserUIInfo(
+                text = "EMAIL",
+                label = "이메일을 입력해주세요",
+                value = email,
+                onChange = viewModel::onEmailChange,
+                inputVisibility = true
+            ),
+            UserUIInfo(
+                text = "AGE",
+                label = "나이를 입력해주세요",
+                value = age,
+                onChange = viewModel::onAgeChange,
+                inputVisibility = true
+            ),
+        ),
         onSignUpClick = viewModel::signUp,
         modifier = Modifier
             .fillMaxSize()

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class UserRepository(private val dataStore: DataStore<Preferences>) {
+class UserDataStore(private val dataStore: DataStore<Preferences>) {
     private object PreferencesKeys {
         val CURRENT_USER_INFO = stringPreferencesKey("current_user_info")
     }

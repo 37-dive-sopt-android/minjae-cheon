@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sopt.dive.navigator.HomePage
 import com.sopt.dive.navigator.SignUp
@@ -18,7 +19,7 @@ import com.sopt.dive.viewModel.LoginViewModel
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: LoginViewModel
+    viewModel: LoginViewModel = viewModel()
 ) {
     val loginState by viewModel.loginStatus.collectAsStateWithLifecycle()
     val context = LocalContext.current
