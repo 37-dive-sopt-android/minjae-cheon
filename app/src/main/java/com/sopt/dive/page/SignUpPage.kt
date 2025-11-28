@@ -14,19 +14,13 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.UserInfo
+import com.sopt.dive.UserUIInfo
 import com.sopt.dive.component.CustomButton
 import com.sopt.dive.component.Header
 import com.sopt.dive.component.SignUpField
 
 @Composable
-fun SignUpPage(id: String,
-               onIdChange: (String) -> Unit,
-               pw: String,
-               onPwChange: (String) -> Unit,
-               nickname: String,
-               onNicknameChange: (String) -> Unit,
-               mbti: String,
-               onMbtiChange: (String) -> Unit,
+fun SignUpPage(userInfoList: List<UserUIInfo>,
                onSignUpClick: () -> Unit,
                modifier: Modifier = Modifier) {
 
@@ -38,10 +32,7 @@ fun SignUpPage(id: String,
 
         Spacer(modifier = Modifier.padding(20.dp))
 
-        SignUpField(
-            id, onIdChange, pw, onPwChange,
-            nickname, onNicknameChange, mbti, onMbtiChange,
-            focusManager)
+        SignUpField(userUIInfo = userInfoList, focusManager = focusManager)
 
         Spacer(Modifier.weight(1f))
 

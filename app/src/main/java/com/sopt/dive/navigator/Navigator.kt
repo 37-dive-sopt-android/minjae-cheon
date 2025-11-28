@@ -7,10 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.sopt.dive.data.UserRepository
 import com.sopt.dive.navigator.login.authGraph
 import com.sopt.dive.page.HomePage
 import com.sopt.dive.screen.MainScreen
@@ -58,8 +58,8 @@ fun AppNavHost(navController: NavHostController, dataStore: DataStore<Preference
     ) {
         authGraph(
             navController =  navController,
-            dataStore =  dataStore,
-            snackbarHostState = snackbarHostState
+            snackbarHostState = snackbarHostState,
+            dataStore = dataStore
         )
 
         composable<HomePage> {
@@ -69,9 +69,7 @@ fun AppNavHost(navController: NavHostController, dataStore: DataStore<Preference
             Text("This is SearchPage")
         }
         composable<MyPage> {
-            MainScreen(
-                viewModel = MainViewModel(userRepository = UserRepository(dataStore = dataStore))
-            )
+            MainScreen()
         }
     }
 }

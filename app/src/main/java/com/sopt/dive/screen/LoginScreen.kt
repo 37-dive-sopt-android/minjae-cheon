@@ -7,7 +7,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sopt.dive.navigator.HomePage
 import com.sopt.dive.navigator.SignUp
@@ -36,7 +39,7 @@ fun LoginScreen(
     }
 
     LoginPage(modifier = Modifier.fillMaxSize(),
-        onLoginClick = {id, pw -> viewModel.validate(id, pw) },
+        onLoginClick = { userName, pw -> viewModel.login(userName, pw) },
         onSignUpClick = { navController.navigate(SignUp) }
         )
 }
