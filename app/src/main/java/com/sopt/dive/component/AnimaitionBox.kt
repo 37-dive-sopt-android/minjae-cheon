@@ -6,7 +6,6 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -23,48 +22,53 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
+import com.sopt.dive.model.CardState
+import com.sopt.dive.model.RotationAxis
 
 @Preview(showBackground = true)
 @Composable
 fun TestAnimationBox() {
-    var isFlipped by remember { mutableStateOf(false) }
+    var targetState by remember { mutableStateOf(CardState.BACK) }
+    var axis by remember { mutableStateOf(RotationAxis.Y) }
 
     AnimationBox(
         front = R.drawable.image,
         back = R.drawable.sample_img,
-        isFlipped = isFlipped,
+        targetState = targetState,
+        axis = axis,
         modifier = Modifier.size(200.dp)
     )
     Button(
-        onClick = { isFlipped = !isFlipped }
+        onClick = {
+            targetState = if(targetState == CardState.BACK) {
+                CardState.FRONT
+            } else {
+                CardState.BACK
+            }
+
+            axis = if(axis == RotationAxis.X) {
+                RotationAxis.Y
+            }
+            else {
+                RotationAxis.X
+            }
+        }
     ) { Text("Click") }
 }
 
 @Composable
 fun AnimationBox(@DrawableRes front: Int, @DrawableRes back: Int,
-                 isFlipped: Boolean,
+                 targetState: CardState,
+                 axis: RotationAxis,
                  modifier: Modifier = Modifier) {
-    val animation = updateTransition(isFlipped)
-    val rotate by animation.animateFloat(
-        transitionSpec = {
-            tween(durationMillis = 1200, easing = LinearOutSlowInEasing)
-        },
-        label = "rotate") { state ->
-        when(state) {
-            true -> 180f
-            false -> 0f
-        }
+    val transition = updateTransition(targetState = targetState, label = "FlipTransition")
+    val rotation by transition.animateFloat(
+        transitionSpec = { tween(durationMillis = 800, easing = LinearOutSlowInEasing) },
+        label = "rotation"
+    ) { face ->
+        face.angle
     }
-    val alphaValue by animation.animateFloat(
-        transitionSpec = {
-            tween(durationMillis = 1200, easing = LinearOutSlowInEasing)
-        },
-        label = "alpha") { state ->
-        when(state) {
-            true -> 0f
-            false -> 1f
-        }
-    }
+    val isFrontVisible = rotation <= 90f
 
     Box(modifier = modifier) {
         Image(
@@ -72,8 +76,12 @@ fun AnimationBox(@DrawableRes front: Int, @DrawableRes back: Int,
             contentDescription = "front",
             modifier = Modifier.fillMaxSize()
                 .graphicsLayer {
-                    rotationY = rotate
-                    alpha = alphaValue
+                    if (axis == RotationAxis.X) {
+                        rotationX = rotation
+                    } else {
+                        rotationY = rotation
+                    }
+                    alpha = if (isFrontVisible) 1f else 0f
                     cameraDistance = 12f * density
                 }
         )
@@ -81,8 +89,12 @@ fun AnimationBox(@DrawableRes front: Int, @DrawableRes back: Int,
             contentDescription = "back",
             modifier = Modifier.fillMaxSize()
                 .graphicsLayer {
-                    rotationY = rotate + 180f
-                    alpha = 1f - alphaValue
+                    if (axis == RotationAxis.X) {
+                        rotationX = rotation + 180f
+                    } else {
+                        rotationY = rotation + 180f
+                    }
+                    alpha = if (isFrontVisible) 0f else 1f
                     cameraDistance = 12f * density
                 })
     }

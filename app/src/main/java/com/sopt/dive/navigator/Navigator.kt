@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.sopt.dive.navigator.login.authGraph
 import com.sopt.dive.page.HomePage
+import com.sopt.dive.screen.HomeScreen
 import com.sopt.dive.screen.MainScreen
 import com.sopt.dive.viewModel.MainViewModel
 import kotlinx.serialization.Serializable
@@ -63,7 +64,7 @@ fun AppNavHost(navController: NavHostController, dataStore: DataStore<Preference
         )
 
         composable<HomePage> {
-            HomePage(modifier = Modifier.fillMaxSize())
+            HomeScreen()
         }
         composable<SearchPage> {
             Text("This is SearchPage")

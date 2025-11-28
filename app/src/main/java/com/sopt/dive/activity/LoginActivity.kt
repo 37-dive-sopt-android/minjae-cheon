@@ -24,8 +24,12 @@ import com.sopt.dive.navigator.MyPage
 import com.sopt.dive.navigator.SearchPage
 import com.sopt.dive.screen.BottomBar
 import com.sopt.dive.ui.theme.DiveTheme
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_info")
+
+@AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
